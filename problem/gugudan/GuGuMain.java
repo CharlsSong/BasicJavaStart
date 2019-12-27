@@ -24,25 +24,35 @@ public class GuGuMain {
 		// 2. 구구단을 출력하는 부분
 		
 		// Scanner sc = new Scanner(System.in);
-		System.out.println("▒▒▒▒▒구구단 출력▒▒▒▒▒");
-		System.out.println("▒▒▒▒▒단수 입력 >> ");
-		
-		// int dansu = sc.nextInt();
-		InputCheck inputCheckInt = InputCheck.getInstance();
-		int dansu = 0;
 		while(true) {
-			dansu = inputCheckInt.inputCheckInt(2,9);
+			System.out.println("▒▒▒▒▒ 구구단 출력 ▒▒▒▒▒");
+			System.out.println("▒▒▒▒▒ 단수 입력(0: 프로그램종료) >> ");
 			
-			if (dansu != -1) {
-				break;
+			// int dansu = sc.nextInt();
+			InputCheck inputCheckInt = InputCheck.getInstance();
+			int dansu = 0;
+			while(true) {
+				dansu = inputCheckInt.inputCheckInt(0,9);
+				
+				if (dansu != -1) {
+					break;
+				} else {
+					continue;
+				}
+				
+			}
+			
+			GuGuPrint guguPrint = new GuGuPrint();
+			guguPrint.guguDan(dansu);
+			
+			if (dansu == 0) {
+				System.out.println("▒▒▒▒▒ 프로그램종료 ▒▒▒▒▒");
+				System.exit(0);
 			} else {
 				continue;
 			}
 			
 		}
-		
-		GuGuPrint guguPrint = new GuGuPrint();
-		guguPrint.guguDan(dansu);
 		
 //		System.out.println("구구단" + dansu + "단 출력");
 //		System.out.println("===============");

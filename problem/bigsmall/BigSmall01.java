@@ -1,6 +1,6 @@
 package problem.bigsmall;
 
-import gugudan.InputCheck;
+import problem.gugudan.InputCheck;
 
 public class BigSmall01 {
 

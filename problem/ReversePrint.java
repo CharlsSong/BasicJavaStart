@@ -2,7 +2,7 @@ package problem;
 
 import java.util.Scanner;
 
-import gugudan.InputCheck;
+import problem.gugudan.InputCheck;
 
 public class ReversePrint {
 	// 조건

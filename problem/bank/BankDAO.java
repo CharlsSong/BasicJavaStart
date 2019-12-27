@@ -14,7 +14,7 @@ public class BankDAO {
 	PreparedStatement pstmt;
 	ResultSet rs;
 	ArrayList<BankDTO> list = new ArrayList<BankDTO>();
-	
+
 	public void insertBank(String bname, String pw) {
 		try {
 			conn = DBManager.getConnection();
@@ -58,7 +58,7 @@ public class BankDAO {
 			
 			int result = pstmt.executeUpdate();
 			if (result == 1) {
-				System.out.println("■■ " + bno + "계좌에" + money + "원 입금되었습니다.");
+				System.out.println("■■ " + bno + "계좌에 " + money + "원 입금되었습니다.");
 			} else {
 				System.out.println("■■ 입금에 실패하였습니다. 관리자에게 문의하세요.");
 			}
@@ -98,6 +98,7 @@ public class BankDAO {
 				bname = rs.getString("bname");
 			}
 			
+			// 출금액과 잔고 비교
 			int money = 0;
 			if (deposit > 0) {
 				while (true) {
@@ -106,8 +107,13 @@ public class BankDAO {
 					money = sc.nextInt();
 					sc.nextLine();
 					
-					if (money >= 1 && money <= 10000000) {
-						break;
+					if (money >= 1 && money <= 10000000) {						
+						if (deposit >= money) {
+							break;
+						} else {	// 잔고가 부족하여 출금할수 없는 경우						
+							System.out.println("■■ 잔고가 부족하여 출금할 수 없습니다.");
+							continue;
+						}						
 					} else {
 						System.out.println("■■ 1회 출금 최대 금액은 10,000,000원 까지 입니다.");
 						continue;
@@ -122,29 +128,28 @@ public class BankDAO {
 				return;
 			}
 			
-			
-			// 출금액과 잔고 비교 후 출금처리 
-			if (deposit >= money) {
+			// 출금처리 
+//			if (deposit >= money) {
 
-				sql = "UPDATE tbl_bank "
-						+"SET money = money - ? "
-						+"WHERE bno = ? AND pw = ? ";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, money);
-				pstmt.setInt(2, bno);
-				pstmt.setString(3, pw);
-				
-				int result = pstmt.executeUpdate();
-				if (result == 1) {
-					System.out.println("■■ " + bno + "계좌에서 " + money + "원 출금되었습니다.");
-				} else {
-					System.out.println("■■ 출금에 실패하였습니다. 관리자에게 문의하세요.");
-				}
-				System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			sql = "UPDATE tbl_bank "
+					+"SET money = money - ? "
+					+"WHERE bno = ? AND pw = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, money);
+			pstmt.setInt(2, bno);
+			pstmt.setString(3, pw);
+			
+			int result = pstmt.executeUpdate();
+			if (result == 1) {
+				System.out.println("■■ " + bno + "계좌에서 " + money + "원 출금되었습니다.");
 			} else {
-				System.out.println("■■ 잔고가 부족하여 출금할 수 없습니다.");
-				System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+				System.out.println("■■ 출금에 실패하였습니다. 관리자에게 문의하세요.");
 			}
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+//			} else {
+//				System.out.println("■■ 잔고가 부족하여 출금할 수 없습니다.");
+//				System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+//			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
