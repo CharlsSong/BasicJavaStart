@@ -7,7 +7,7 @@ public class DDBoardMain {
 		Scanner sc = new Scanner(System.in);
 		BoardDAO bDao = new BoardDAO();
 		int code = 0; 	// 사용자가 선택한 프로그램 번호
-		
+
 		while(true) {
 			System.out.println("▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧");
 			System.out.println("▨▧ 더블디 게시판");
@@ -129,6 +129,12 @@ public class DDBoardMain {
 				System.out.println("▨▧ 게시글 번호>>");
 				int bno = sc.nextInt();
 				sc.nextLine();
+				
+				int result = bDao.viewCntPlus(bno);
+				if(result < 0) {
+					continue ;					
+				}
+								
 				bDao.boardView(bno);
 			} else if(code == 8) {	// 8. 만든이
 				System.out.println("▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧");

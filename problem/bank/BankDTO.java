@@ -8,7 +8,7 @@ public class BankDTO {
 	private String pw; 
 	private int money;       
 	private Date regdate;
-	
+
 	public BankDTO() {}
 
 	public BankDTO(int bno, String bname, String pw, int money, Date regdate) {
@@ -18,6 +18,31 @@ public class BankDTO {
 		this.pw = pw;
 		this.money = money;
 		this.regdate = regdate;
+	}
+
+	public BankDTO(int bno, String pw, int money) {
+		super();
+		this.bno = bno;
+		this.pw = pw;
+		this.money = money;
+	}
+
+	public BankDTO(int bno, int money) {
+		super();
+		this.bno = bno;
+		this.money = money;
+	}
+
+	public BankDTO(String bname, String pw) {
+		super();
+		this.bname = bname;
+		this.pw = pw;
+	}
+
+	public BankDTO(int bno, String pw) {
+		super();
+		this.bno = bno;
+		this.pw = pw;
 	}
 
 	public int getBno() {
@@ -62,7 +87,7 @@ public class BankDTO {
 
 	@Override
 	public String toString() {
-		return "■■" + 
+		return "■■ " + 
 				bno + "\t" + 
 				bname + "\t" + 
 				pw + "\t" + 
