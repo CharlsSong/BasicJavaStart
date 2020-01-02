@@ -2,6 +2,7 @@ package problem.DDBoard;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -17,8 +18,8 @@ public class BoardDAO {
 	
 	public void boardSelect() {		
 		sqlSession = sqlSessionFactory.openSession(true);
-		try {
-			list = sqlSession.selectList("boardSelect");
+		try {			
+			list = sqlSession.selectList("board.boardSelect");
 			printQuery(list);					
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -27,11 +28,12 @@ public class BoardDAO {
 			sqlSession.close();			
 		}
 	}
+	
 	public void boardInsert(BoardDTO bDto) {
 		sqlSession = sqlSessionFactory.openSession(true);
 		try {
 			
-			result = sqlSession.insert("boardInsert", bDto);
+			result = sqlSession.insert("board.boardInsert", bDto);
 			if(result > 0) {
 				System.out.println("▨▧ 게시글이 등록되었습니다.");
 			} else {
@@ -46,10 +48,22 @@ public class BoardDAO {
 			
 		}
 	}
+	
 	public void boardUpdate(BoardDTO bDto) {
 		sqlSession = sqlSessionFactory.openSession(true);
 		try {
-			result = sqlSession.update("boardUpdate", bDto);
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("bno", bDto.getBno());
+			map.put("writer", bDto.getWriter());
+			
+			result = sqlSession.selectOne("board.writerCheck", map);
+			
+			if (result == 0) {
+				System.out.println("수정권한이 없는 게시물입니다.");
+				return;
+			} 
+			
+			result = sqlSession.update("board.boardUpdate", bDto);
 			
 			if(result > 0) {
 				System.out.println("▨▧ " + bDto.getBno() + "번 게시글이 수정되었습니다.");
@@ -64,10 +78,22 @@ public class BoardDAO {
 			
 		}
 	}
-	public void boardDelete(int bno) {
+	
+	public void boardDelete(int bno, String writer) {
 		sqlSession = sqlSessionFactory.openSession(true);
 		try {
-			result = sqlSession.delete("boardDelete", bno);
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("bno", bno);
+			map.put("writer", writer);
+			
+			result = sqlSession.selectOne("board.writerCheck", map);
+			
+			if (result == 0) {
+				System.out.println("삭제권한이 없는 게시물입니다.");
+				return;
+			}
+			
+			result = sqlSession.delete("board.boardDelete", bno);
 			if(result > 0) {
 				System.out.println("▨▧ " + bno + "번 게시글이 삭제되었습니다.");
 			} else {
@@ -81,10 +107,11 @@ public class BoardDAO {
 			
 		}
 	}
+		
 	public void boardSearch(String search) {
 		sqlSession = sqlSessionFactory.openSession(true);
 		try {
-			list = sqlSession.selectList("boardSearch", "%"+search+"%");
+			list = sqlSession.selectList("board.boardSearch", "%"+search+"%");
 			printQuery(list);					
 			System.out.println("▩▩ \"" + search + "\"로 검색한 결과 " + list.size() + "건 검색되었습니다.");
 			System.out.println("▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩");
@@ -95,13 +122,14 @@ public class BoardDAO {
 			sqlSession.close();			
 		}
 	}
+	
 	public void boardSort(int column, int order) {
 		sqlSession = sqlSessionFactory.openSession(true);
 		try {
 			HashMap<String, Integer> map = new HashMap<>();
 			map.put("column", column);
 			map.put("order", order);			
-			list = sqlSession.selectList("boardSort", map);
+			list = sqlSession.selectList("board.boardSort", map);
 			printQuery(list);					
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -110,11 +138,12 @@ public class BoardDAO {
 			sqlSession.close();			
 		}
 	}
+	
 	public void boardView(int bno) {
 		sqlSession = sqlSessionFactory.openSession(true);
 		try {
 			BoardDTO bDto = new BoardDTO();
-			bDto = sqlSession.selectOne("boardView", bno);
+			bDto = sqlSession.selectOne("board.boardView", bno);
 			System.out.println("▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧");
 			System.out.println("▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧");
 			System.out.println("〓 번호: " + bDto.getBno() + " / 제목: " + bDto.getTitle() + " / 조회수: " + bDto.getViewcnt());
@@ -131,14 +160,12 @@ public class BoardDAO {
 			
 		}
 		
-		
-		
 	}
 	
 	public int viewCntPlus(int bno) {
-		sqlSession = sqlSessionFactory.openSession(true);
+		sqlSession = sqlSessionFactory.openSession(true);		
 		try {
-			result = sqlSession.update("viewCntPlus", bno);
+			result = sqlSession.update("board.viewCntPlus", bno);
 			if (result > 0) {
 				System.out.println("▩▩ " + bno + "번 게시글 조회수증가 >>>>>");
 			} else {
@@ -164,6 +191,11 @@ public class BoardDAO {
 		}
 		System.out.println("▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩");		
 	}
+	
+//		BoardDTO bDto = new BoardDTO(title, content, writer);
+//		bDao.boardInsert(bDto);
+		
+	
 //	Connection conn;
 //	PreparedStatement pstmt;
 //	ResultSet rs;
