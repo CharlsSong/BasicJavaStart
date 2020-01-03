@@ -1,0 +1,298 @@
+
+DROP TABLE EMP;
+DROP TABLE DEPT;
+DROP TABLE BONUS;
+DROP TABLE SALGRADE;
+DROP TABLE DUMMY;
+ 
+CREATE TABLE EMP
+       (EMPNO NUMBER(4) PRIMARY KEY,
+        ENAME VARCHAR2(10),
+        JOB VARCHAR2(9),
+        MGR NUMBER(4),
+        HIREDATE DATE,
+        SAL NUMBER(7, 2),
+        COMM NUMBER(7, 2),
+        DEPTNO NUMBER(2));
+ 
+INSERT INTO EMP VALUES
+        (7369, 'SMITH',  'CLERK',     7902,
+        sysdate,  800, NULL, 20);
+         
+INSERT INTO EMP VALUES
+        (7499, 'ALLEN',  'SALESMAN',  7698,
+        sysdate, 1600,  300, 30);
+         
+INSERT INTO EMP VALUES
+        (7521, 'WARD',   'SALESMAN',  7698,
+        sysdate, 1250,  500, 30);
+         
+INSERT INTO EMP VALUES
+        (7566, 'JONES',  'MANAGER',   7839,
+        sysdate,  2975, NULL, 20);
+         
+INSERT INTO EMP VALUES
+        (7654, 'MARTIN', 'SALESMAN',  7698,
+        sysdate, 1250, 1400, 30);
+         
+INSERT INTO EMP VALUES
+        (7698, 'BLAKE',  'MANAGER',   7839,
+        sysdate,  2850, NULL, 30);
+         
+INSERT INTO EMP VALUES
+        (7782, 'CLARK',  'MANAGER',   7839,
+        sysdate,  2450, NULL, 10);
+INSERT INTO EMP VALUES
+        (7788, 'SCOTT',  'ANALYST',   7566,
+        sysdate, 3000, NULL, 20);
+         
+INSERT INTO EMP VALUES
+        (7839, 'KING',   'PRESIDENT', NULL,
+        sysdate, 5000, NULL, 10);
+         
+INSERT INTO EMP VALUES
+        (7844, 'TURNER', 'SALESMAN',  7698,
+        sysdate,  1500,    0, 30);
+         
+INSERT INTO EMP VALUES
+        (7876, 'ADAMS',  'CLERK',     7788,
+        sysdate, 1100, NULL, 20);
+         
+INSERT INTO EMP VALUES
+        (7900, 'JAMES',  'CLERK',     7698,
+        sysdate,   950, NULL, 30);
+         
+INSERT INTO EMP VALUES
+        (7902, 'FORD',   'ANALYST',   7566,
+        sysdate,  3000, NULL, 20);
+         
+INSERT INTO EMP VALUES
+        (7934, 'MILLER', 'CLERK',     7782,
+        sysdate, 1300, NULL, 10);
+ 
+CREATE TABLE DEPT
+       (DEPTNO NUMBER(2) PRIMARY KEY,
+        DNAME VARCHAR2(14),
+        LOC VARCHAR2(13) );
+ 
+INSERT INTO DEPT VALUES (10, 'ACCOUNTING', 'NEW YORK');
+INSERT INTO DEPT VALUES (20, 'RESEARCH',   'DALLAS');
+INSERT INTO DEPT VALUES (30, 'SALES',      'CHICAGO');
+INSERT INTO DEPT VALUES (40, 'OPERATIONS', 'BOSTON');
+ 
+CREATE TABLE BONUS
+        (ENAME VARCHAR2(10),
+         JOB   VARCHAR2(9),
+         SAL   NUMBER,
+         COMM  NUMBER);
+ 
+CREATE TABLE SALGRADE
+        (GRADE NUMBER,
+         LOSAL NUMBER,
+         HISAL NUMBER);
+ 
+INSERT INTO SALGRADE VALUES (1,  700, 1200);
+INSERT INTO SALGRADE VALUES (2, 1201, 1400);
+INSERT INTO SALGRADE VALUES (3, 1401, 2000);
+INSERT INTO SALGRADE VALUES (4, 2001, 3000);
+INSERT INTO SALGRADE VALUES (5, 3001, 9999);
+ 
+CREATE TABLE DUMMY
+        (DUMMY NUMBER);
+ 
+INSERT INTO DUMMY VALUES (0);
+ 
+COMMIT;
+
+SELECT * FROM emp;
+
+select * from tbl_study;
+
+COMMIT;
+
+-- 기획사 테이블 생성
+DROP TABLE tbl_enter;
+CREATE TABLE tbl_enter(
+    ano VARCHAR2(20) PRIMARY KEY,   -- 소속 아티스트번호
+    aname VARCHAR2(50) NOT NULL,    -- 아티스트 이름
+    major VARCHAR2(50) NOT NULL,    -- 분야(연기,  가수....)
+    groupyn VARCHAR2(5) NOT NULL,   -- 그룹 유무(y/n)
+    groupnm VARCHAR2(100),          -- 그룹 이름
+    sal number NOT NULL,            -- 연봉
+    regdate DATE DEFAULT SYSDATE    -- 등록일
+);
+
+-- 시퀀스 : 자동증가(error가 발생해도 증가한다.)
+DROP SEQUENCE seq_enter;
+CREATE SEQUENCE seq_enter
+    START WITH 1        -- 시작값
+    INCREMENT BY 1     -- 증가값
+    NOCYCLE;
+    -- MAXVALUE: 최대값  
+    -- MINVALUE: 최대값  
+    -- CYCLE/NOCYCLE: 반복여부  
+
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)
+VALUES(SEQ_ENTER.NEXTVAL, '원','가수','y','원더걸스',9900);
+
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)
+VALUES(SEQ_ENTER.NEXTVAL, '더','가수','y','원더걸스',9500);
+
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)
+VALUES(SEQ_ENTER.NEXTVAL, '걸','가수','y','원더걸스',9300);
+
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)
+VALUES(SEQ_ENTER.NEXTVAL, '스','가수','y','원더걸스',9800);
+
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)
+VALUES(SEQ_ENTER.NEXTVAL, '원더우먼','가수','y','원더걸스',9900);
+
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)
+VALUES(SEQ_ENTER.NEXTVAL, '원더보이','가수','y','원더걸스',4500);
+
+COMMIT;
+
+SELECT * FROm tbl_enter;
+
+DESC tbl_enter;
+
+ALTER TABLE tbl_enter
+    ADD CONSTRAINT enter_ck_groupyn
+    CHECK(groupyn in ('y','n')); -- groupyn 컬럼 CHECK 제약조건 추가
+
+
+-- 서점관리 테이블 생성
+DROP TABLE tbl_book;
+CREATE TABLE tbl_book(
+    bno VARCHAR2(20) PRIMARY KEY,   -- 책번호
+    bname VARCHAR2(100) NOT NULL,   -- 책이름
+    price NUMBER NOT NULL,          -- 책가격
+    company VARCHAR2(100) NOT NULL, -- 출판사
+    writer VARCHAR2(100) NOT NULL,  -- 저자
+    regdate DATE DEFAULT SYSDATE    -- 출판일자
+);
+
+DROP SEQUENCE seq_book;
+CREATE SEQUENCE seq_book
+    START WITH 1        -- 시작값
+    INCREMENT BY 1     -- 증가값
+    NOCYCLE;
+    
+INSERT INTO tbl_book(bno, bname, price, company, writer)
+VALUES(seq_book.NEXTVAL, 'Do it 자바프로그래밍 입문', 25000, '이지퍼블리싱', '박은종');
+
+INSERT INTO tbl_book(bno, bname, price, company, writer)
+VALUES(seq_book.NEXTVAL, '열혈 Java 프로그래밍', 30000, '오렌지미디어', '윤성우');
+
+INSERT INTO tbl_book(bno, bname, price, company, writer)
+VALUES(seq_book.NEXTVAL, '예제로 익히는 제이쿼리3', 33000, '에이콘', '아담보두치');
+
+INSERT INTO tbl_book(bno, bname, price, company, writer)
+VALUES(seq_book.NEXTVAL, 'Oracle과 SQL PL/SQL을 다루는 기술', 28000, '길벗', '홍형경');
+
+INSERT INTO tbl_book(bno, bname, price, company, writer)
+VALUES(seq_book.NEXTVAL, 'JAVA! 자바! 잡아?', 22000, '나자바바', '최초롱');
+
+COMMIT;
+
+SELECt * FROM tbl_book;
+
+DESC tbl_book;
+
+
+-- 게시판 테이블 생성
+DROP TABLE tbl_board;
+CREATE TABLE tbl_board(
+    bno NUMBER PRIMARY KEY,
+    title VARCHAR2(200) NOT NULL,
+    content VARCHAR2(500) NOT NULL,
+    writer VARCHAR2(100) NOT NULL,
+    viewcnt NUMBER DEFAULT 0,
+    regdate DATE DEFAULT SYSDATE
+);
+
+DROP SEQUENCE seq_board;
+CREATE SEQUENCE seq_board
+    START WITH 1
+    INCREMENT BY 1
+    NOCYCLE;
+
+
+INSERT INTO tbl_board(bno,title,content,writer)
+VALUES(seq_board.NEXTVAL,'안녕하세요.','처음뵙겠습니다. 오늘가입했어요.','초롱이');
+
+INSERT INTO tbl_board(bno,title,content,writer)
+VALUES(seq_board.NEXTVAL,'오늘은 둘째날','비가 오고 있네요. 겨울비....','타짜');
+
+INSERT INTO tbl_board(bno,title,content,writer)
+VALUES(seq_board.NEXTVAL,'비오는 날에 좋은것','애호박전을 부쳐 먹으면 맛있어요.','주방아줌마');
+
+INSERT INTO tbl_board(bno,title,content,writer)
+VALUES(seq_board.NEXTVAL,'신발을 사러갈까?','가지마세요. 내일부터 비 안와요.','우산가게아저씨');
+
+INSERT INTO tbl_board(bno,title,content,writer)
+VALUES(seq_board.NEXTVAL,'비가오면....','커피가 희안하게 맛있어요.','초롱까페점원');
+
+COMMIT;
+
+DROP SEQUENCE seq_board;
+CREATE SEQUENCE seq_board
+    START WITH 1
+    INCREMENT BY 1
+    NOCYCLE;
+
+DESC tbl_board;
+
+
+-- 은행 테이블 생성
+DROP TABLE tbl_bank;
+CREATE TABLE tbl_bank(
+    bno NUMBER PRIMARY KEY,         -- 계좌번호
+    bname VARCHAR2(50) NOT NULL,    -- 예금주
+    pw VARCHAR2(50) NOT NULL,       -- 계좌 비밀번호
+    money NUMBER DEFAULT 0,         -- 계좌 금액    
+    regdate DATE DEFAULT SYSDATE    -- 계좌 개설일자    
+);
+
+DROP SEQUENCE seq_bank;
+CREATE SEQUENCE seq_bank
+    START WITH 101
+    INCREMENT BY 1
+    NOCYCLE;
+
+INSERT INTO tbl_bank(bno,bname,pw)
+VALUES(seq_bank.NEXTVAL, '송철수','scs');
+
+INSERT INTO tbl_bank(bno,bname,pw)
+VALUES(seq_bank.NEXTVAL, '오동선','ods');
+
+INSERT INTO tbl_bank(bno,bname,pw)
+VALUES(seq_bank.NEXTVAL, '윤미진','ymj');
+
+INSERT INTO tbl_bank(bno,bname,pw)
+VALUES(seq_bank.NEXTVAL, '김혜원','hkw');
+
+INSERT INTO tbl_bank(bno,bname,pw)
+VALUES(seq_bank.NEXTVAL, '백진주','bjj');
+
+COMMIT;
+
+SELECT * FROM tbl_bank;
+
+DESC tbl_bank;
+
+
+DROP TABLE tbl_member;
+CREATE TABLE tbl_member(
+    id VARCHAR2(50) PRIMARY KEY,
+    pw VARCHAR2(30) NOT NULL,
+    name VARCHAR2(100) NOT NULL,
+    phone VARCHAR2(100) NOT NULL,
+    regdate DATE default SYSDATE
+);
+
+DESC tbl_member;
+
+COMMIT;
+
+SELECT * FROM tbl_member;
