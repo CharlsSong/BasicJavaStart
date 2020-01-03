@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="sale">
+ 	<insert id="insertSale" parameterType="map">
+ 		INSERT INTO tbl_sale(sno, sname, cnt, tprice)
+ 		VALUES(seq_sale.NEXTVAL, #{sname}, #{cnt}, #{tprice})
+ 	</insert>
+ 	
+ 	<select id="totalSale" resultType="problem.marcket.SaleDTO">
+ 		SELECT sname, sum(cnt), sum(tprice), regdate FROM tbl_sale
+ 		GROUP BY regdate, sname
+ 	</select>
+ </mapper>
