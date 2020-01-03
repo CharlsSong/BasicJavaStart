@@ -179,25 +179,26 @@ public class DDBoardMain {
 				System.out.println("▨▧ made by Kcumero");
 				System.out.println("▨▧ kcumero@hanmail.net");
 				
-			} else if(code == 0) {	// 0. 로그인 
+			} else if(code == 0) {	// 0. 로그인 로그아웃 
 				System.out.println("▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧");
 				System.out.println("▨▧ 더블디 게시판");
 
 				
-				if (session.equals("YES")) {
+				if (DDBoardMain.session.equals("YES")) {
 					System.out.println("▨▧ 0. 로그아웃");
-					session = "NO";
-					System.out.println("▨▧  ID : "  + userid + " 로그아웃 되었습니다.");
-					userid = "";
+					DDBoardMain.session = "NO";
+					System.out.println("▨▧  ID : "  + DDBoardMain.userid + " 로그아웃 되었습니다.");
+					DDBoardMain.userid = "";
 					
 				} else {
-					System.out.println("▨▧ 0. 로그인");
+					System.out.println("▨▧ 로그인이 필요한 기능입니다. 로그인 해주세요.");					
 					login();
 				}
 				
 			} else {				// 9. 프로그램 종료
 				System.out.println("▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧");
-				System.out.println("▨▧ [프로그램 종료]");
+				System.out.println("▨▧ [프로그램 종료] ▨▧");
+				System.out.println("▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧▨▧");
 				System.exit(0);
 			}
 					
