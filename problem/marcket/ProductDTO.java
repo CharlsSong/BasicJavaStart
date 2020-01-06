@@ -94,7 +94,7 @@ public class ProductDTO {
 		 
 //		return "ProductDTO [pno=" + pno + ", pname=" + pname + ", company=" + company + ", price=" + price + ", cnt="
 //				+ cnt + ", regdate=" + regdate + "]";
-		return "▣▣ " + pno + "\t" + pname + "\t" + company + "\t" + price + "\t"
+		return pno + "\t" + pname + "\t" + company + "\t" + price + "\t"
 		+ cnt + "\t" + regdate;
 	}          
 

@@ -22,7 +22,7 @@ public class MarcketMain {
 		Boolean flag = false;
 		// 로그인 체크
 //		do {
-//			System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+//			System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 //			System.out.println("▣▣ Marcket System Ver1.0 ▣▣");
 //			System.out.println("▣▣ [MSG] Please login in to use.");
 //			System.out.println("▣▣ ID>> ");
@@ -35,7 +35,7 @@ public class MarcketMain {
 			
 			// 로그인 성공 업무 시작
 			while(true) {
-				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ Marcket System Ver1.0 ▣▣");
 				System.out.println("▣▣ 1. 제품 판매");
 				System.out.println("▣▣ 2. 제품 등록&추가");
@@ -45,7 +45,7 @@ public class MarcketMain {
 				System.out.println("▣▣ 6. 제품 검색");
 				System.out.println("▣▣ 7. 일일 매출현황");
 				System.out.println("▣▣ 8. 프로그램 종료");
-				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ Code>> ");
 				code = sc.nextInt();
 				sc.nextLine();
@@ -62,7 +62,7 @@ public class MarcketMain {
 			if(code == 1) { 	// 1. 제품 판매
 				
 				// 판매 제품 리스트 출력
-				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ 판매 제품 리스트 ");
 				System.out.println("▣▣ 구매하고 싶은 제품의 번호와 수량을 입력하세요. ");
 				// 현재 등록된 제품중 제고가 1보다 큰것(즉 수량이 0인 제품을 제외)
@@ -72,7 +72,7 @@ public class MarcketMain {
 				// 판매정보 입력
 //				String pname = "";
 //				do {
-//					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+//					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 //					System.out.println("▣▣ 1. 제품 판매 ");
 //					System.out.println("▣▣ 제품명: ");
 //					pname = sc.nextLine();
@@ -121,7 +121,10 @@ public class MarcketMain {
 				// 3. pDao.UpdatePdtSub(pname, cnt) 수행			// rollback 문제 발생(Spring에서 잡을 수 있음)
 				
 			} else if(code == 2) { 	// 2. 제품 등록&추가
-				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+				
+				pDao.salePdtList();	// 등록상품 리스트 출력
+				
+				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ 2. 제품 등록&추가 ");
 				System.out.println("▣▣ 제품명:  ");
 				String pname = sc.nextLine();
@@ -152,7 +155,7 @@ public class MarcketMain {
 			} else if(code == 3) { 	// 3. 제품 수정
 				String pname = "";
 				do {
-					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 					System.out.println("▣▣ 3. 제품 수정 ");
 					System.out.println("▣▣ 제품명:  ");
 					pname = sc.nextLine();
@@ -173,7 +176,7 @@ public class MarcketMain {
 			} else if(code == 4) { 	// 4. 제품 삭제
 				String pname = "";
 				do {
-					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 					System.out.println("▣▣ 4. 제품 삭제 ");
 					System.out.println("▣▣ 제품명:  ");
 					pname = sc.nextLine();
@@ -198,13 +201,13 @@ public class MarcketMain {
 				}
 				
 			} else if(code == 5) { 	// 5. 제품 조회
-				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ 5. 제품 조회 ");
 				pDao.selectPdt();
 			} else if(code == 6) { 	// 6. 제품 검색
 				String pname = "";
 				do {
-					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 					System.out.println("▣▣ 6. 제품 검색 ");
 					System.out.println("▣▣ 제품명:  ");
 					pname = sc.nextLine();
@@ -213,7 +216,7 @@ public class MarcketMain {
 				pDao.searchPdt(pname);
 			} else if(code == 7) { 	// 7. 일일 매출현황
 				// 판매된 제품명, 수량, 가격 누적저장
-				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ 7. 일일 매출현황 ");
 			
 				pDao.totalSale();

@@ -117,7 +117,7 @@ public class ProductDAO {
 			map.put("flag", "sub");
 			result = sqlSession.update("pdt.cntChange", map);
 			if (result > 0) {
-				System.out.println("▣▣ " + list.get(num-1).getPname() + " 제품 " + cnt + "개 판매되었습니다.");
+				System.out.println("▣▣ " + list.get(num-1).getPname() + " 제품 " + cnt + "개 판매되었습니다.");			
 				sqlSession.commit();	// tbl_product에 대한 commit수행  
 //				sDao.Commit();			// tbl_sale에 대한 commit수행(수행되지 않는다.....~.~;)
 			} else {
@@ -345,26 +345,26 @@ public class ProductDAO {
 	// 조회결과 viewer
 	public void viewPdtList(List<ProductDTO> list) {
 		int i = 1;
-		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 		System.out.println("▣▣ 선택\t제품번호\t제품명\t제조사\t입고단가\t제고\t입고일 ▣▣");
-		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 		for (ProductDTO line : list) {
-			System.out.println(i+"\t"+line.toString());
+			System.out.println("▣▣ " + i + "\t" + line.toString());
 			i++;
 		}		
-		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 	}
 	
 	// 제품 상세조회
 	public void viewPdtDetail(ProductDTO pDto) {
-		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 		System.out.println("▣▣ 제품번호: "+ pDto.getPno());
 		System.out.println("▣▣ 제품명: "+ pDto.getPname());
 		System.out.println("▣▣ 제조사: "+ pDto.getCompany());
 		System.out.println("▣▣ 제품단가: "+ pDto.getPrice());
 		System.out.println("▣▣ 입고수량: "+ pDto.getCnt());
 		System.out.println("▣▣ 입고일: "+ pDto.getRegdate());
-		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 	}
 	
 	
