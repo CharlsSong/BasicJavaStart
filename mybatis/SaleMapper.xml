@@ -8,8 +8,8 @@
  		VALUES(seq_sale.NEXTVAL, #{sname}, #{cnt}, #{tprice})
  	</insert>
  	
- 	<select id="totalSale" resultType="problem.marcket.SaleDTO">
- 		SELECT sname, sum(cnt), sum(tprice), regdate FROM tbl_sale
- 		GROUP BY regdate, sname
+ 	<select id="totalSale" resultType="SaleDTO">
+ 		SELECT sname, sum(cnt) as cnt, sum(tprice) as tprice, TO_CHAR(regdate, 'YYYY-MM-DD') as regdate FROM tbl_sale
+ 		GROUP BY TO_CHAR(regdate, 'YYYY-MM-DD'), sname  
  	</select>
  </mapper>

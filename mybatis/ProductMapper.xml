@@ -3,16 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="pdt">
-  	<select id="salePdtList" resultType="problem.marcket.ProductDTO">
+  	<select id="salePdtList" resultType="ProductDTO">
   		SELECT * FROM tbl_product
-  		WHERE cnt > 0
+  		WHERE cnt >= 1
   	</select>
   	
-  	<select id="selectPdt" resultType="problem.marcket.ProductDTO">
+  	<select id="selectPdt" resultType="ProductDTO">
   		SELECT * FROM tbl_product
   	</select>
   	
-  	<select id="searchPdt" resultType="problem.marcket.ProductDTO">
+  	<select id="searchPdt" resultType="ProductDTO">
   		SELECT * FROM tbl_product
   		WHERE pname LIKE #{pname}
   	</select>
@@ -22,19 +22,18 @@
   		WHERE pname LIKE #{pname}
   	</select>
   	
-  	<update id="cntPlus" parameterType="map">
+  	<update id="cntChange" parameterType="map">
   		UPDATE tbl_product SET
-  			cnt = cnt + #{cnt}
+  			<if test="flag == 'plus'">
+  				cnt = cnt + #{cnt}
+  			</if>
+  			<if test="flag == 'sub'">
+  				cnt = cnt - #{cnt}
+  			</if>
   		WHERE pname = #{pname}
   	</update>
   	
-  	<update id="salePdt" parameterType="map">
-  		UPDATE tbl_product SET
-  			cnt = cnt - #{cnt}
-  		WHERE pname = #{pname}
-  	</update>
-  	
-  	<update id="updatePdt" parameterType="problem.marcket.ProductDTO">
+  	<update id="updatePdt" parameterType="ProductDTO">
   		UPDATE tbl_product SET
   			company = #{company},
   			price = #{price},
@@ -42,7 +41,7 @@
   		WHERE pname = #{pname}
   	</update>
   	
-  	<insert id="insert" parameterType="problem.marcket.ProductDTO">
+  	<insert id="insert" parameterType="ProductDTO">
   		INSERT INTO tbl_product(pno, pname, company, price, cnt)
   		VALUES(seq_product.NEXTVAL, #{pname}, #{company}, #{price}, #{cnt})  		
   	</insert>

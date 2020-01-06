@@ -3,12 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
-	<insert id="boardInsert" parameterType="problem.DDBoard.BoardDTO">
+	<insert id="boardInsert" parameterType="BoardDTO">
 		INSERT INTO tbl_board(bno, title, content, writer)
 		VALUES(seq_board.NEXTVAL, #{title}, #{content}, #{writer})
 	</insert>	
 	
-	<update id="boardUpdate" parameterType="problem.DDBoard.BoardDTO">
+	<update id="boardUpdate" parameterType="BoardDTO">
 		UPDATE tbl_board SET
 			title = #{title},
 			content = #{content},
@@ -28,16 +28,16 @@
 		WHERE bno = #{bno}
 	</delete>
 	
-	<select id="boardSelect" resultType="problem.DDBoard.BoardDTO">
+	<select id="boardSelect" resultType="BoardDTO">
 		SELECT * FROM tbl_board
 	</select>
 	
-	<select id="boardSearch" resultType="problem.DDBoard.BoardDTO">
+	<select id="boardSearch" resultType="BoardDTO">
 		SELECT * FROM tbl_board
 		WHERE title like #{search} 
 	</select>
 	
-	<select id="boardSort" resultType="problem.DDBoard.BoardDTO">
+	<select id="boardSort" resultType="BoardDTO">
 		SELECT * FROM tbl_board
 		<if test="column == 1">
 			ORDER BY bno
@@ -56,7 +56,7 @@
 		</if>		   
 	</select>
 	
-	<select id="boardView" resultType="problem.DDBoard.BoardDTO">
+	<select id="boardView" resultType="BoardDTO">
 		SELECT * FROM tbl_board
 		WHERE bno= #{bno} 
 	</select>

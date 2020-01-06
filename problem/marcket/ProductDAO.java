@@ -11,6 +11,7 @@ import mybatis.SqlMapConfig;
 public class ProductDAO {
 	SqlSessionFactory sqlSessionFactory = SqlMapConfig.getSqlSession(); 
 	SqlSession sqlSession;
+	SaleDAO sDao = new SaleDAO();
 	int result;
 	List<ProductDTO> list;
 	Boolean flag;
@@ -35,11 +36,12 @@ public class ProductDAO {
 	// 5. tbl_sale에 판매기록을 저장한다.
 	// sno 시퀀스값, sname은 코카콜라, cnt는 3, tprice 수량x단가로 저장
 	
-	// 제품판매
-	public void salePdtList() {
+	// 제품판매리스트출력 : 제고가 0보다 큰 제품만 조회
+	public List<ProductDTO> salePdtList() {
 		sqlSession = sqlSessionFactory.openSession();
 		try {
 			list = sqlSession.selectList("pdt.salePdtList");
+			
 			if (list.size() <= 0) {
 				System.out.println("▣▣ 판매 제품 조회에 실패하였습니다. 관리자에게 문의하세요.");
 			} else {
@@ -53,40 +55,73 @@ public class ProductDAO {
 			sqlSession.close();
 			
 		}
+		
+		return list;
 	}
 	
-	public void salePdt(String pname, int cnt) {
-		sqlSession = sqlSessionFactory.openSession(true);
+//	public Boolean cntCheck(int num, int cnt) {
+//		// 1. 제고와 판매량 비교
+//		if(cnt > list.get(num-1).getCnt()) {
+//			System.out.println("▣▣ " + list.get(num-1).getPname() + " 제품 제고가 부족하여 판매할 수 없습니다.");
+//			flag = true;
+//		} else {
+//			flag = false;
+//		}
+//	
+//		return flag;
+//	}
+	
+	public void salePdt(int num, int cnt) {
+//		sqlSession = sqlSessionFactory.openSession();
+//		try {
+//			System.out.println(num + ", " + cnt +", " + list.get(num-1).getPrice());
+//			
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//			
+//		} finally {
+//			sqlSession.close();
+//			
+//		}
+		
+		sqlSession = sqlSessionFactory.openSession();
 		try {
 			
-			ProductDTO pDto = new ProductDTO(); 
-			pDto = sqlSession.selectOne("pdt.searchPdt", pname);
+//			ProductDTO pDto = new ProductDTO(); 
+//			pDto = sqlSession.selectOne("pdt.searchPdt", pname);
+//	
+		if(cnt > list.get(num-1).getCnt()) {
+			System.out.println("▣▣ " + list.get(num-1).getPname() + " 제품 제고가 부족하여 판매할 수 없습니다.");
+			return;
+		}
 			
-			int tprice = cnt*pDto.getPrice();
+			int tprice = cnt*list.get(num-1).getPrice();	// 판매금액계산
+
+			
+			// 2. 판매테이블 Insert처리
 			
 			HashMap<String,Object> sMap = new HashMap<>();
-			sMap.put("sname", pDto.getPname());
+			sMap.put("sname", list.get(num-1).getPname());
 			sMap.put("cnt", cnt);
 			sMap.put("tprice", tprice);
 			
-			// 판매테이블 Insert처리
-			result = sqlSession.update("sale.insertSale", sMap);
-			if (result > 0) {
-				System.out.println("▣▣ " + pDto.getPname() + " 제품 " + pDto.getCnt() + "개 판매금액 " + tprice + "원 등록되었습니다.");
-			} else {
-				System.out.println("▣▣ " + pDto.getPname() + " 제품 판매금액 등록에 실패하였습니다.관리자에게 문의하세요.");
+			if(sDao.insertSale(sMap)) {		// 판매등록 실패시 
 				return;
-			}
-			
-			// 상품테이블 Update 처리
+			} 
+									
+			// 3. 상품테이블 Update 처리
 			HashMap<String,Object> map = new HashMap<>();
-			map.put("pname", pname);
+			map.put("pname", list.get(num-1).getPname());
 			map.put("cnt", cnt);
-			result = sqlSession.update("pdt.salePdt", map);
+			map.put("flag", "sub");
+			result = sqlSession.update("pdt.cntChange", map);
 			if (result > 0) {
-				System.out.println("▣▣ " + pname + " 제품 " + cnt + "개 판매되었습니다.");
+				System.out.println("▣▣ " + list.get(num-1).getPname() + " 제품 " + cnt + "개 판매되었습니다.");
+				sqlSession.commit();	// tbl_product에 대한 commit수행  
+//				sDao.Commit();			// tbl_sale에 대한 commit수행(수행되지 않는다.....~.~;)
 			} else {
-				System.out.println("▣▣ " + pname + " 제품 판매실패하였습니다.관리자에게 문의하세요.");
+				System.out.println("▣▣ " + list.get(num-1).getPname() + " 제품 판매실패하였습니다.관리자에게 문의하세요.");
 				return;
 			}
 		} catch (Exception e) {
@@ -98,6 +133,59 @@ public class ProductDAO {
 			
 		}
 	}
+
+	// rollback 문제를 피하기 위해 묶어서 처리
+//	public void salePdt(String pname, int cnt) {
+//		sqlSession = sqlSessionFactory.openSession();
+//		try {
+//			
+//			ProductDTO pDto = new ProductDTO(); 
+//			pDto = sqlSession.selectOne("pdt.searchPdt", pname);
+//			
+//			// 1. 제고와 판매량 비교
+//			if(cnt > pDto.getCnt()) {
+//				System.out.println("▣▣ " + pDto.getPname() + " 제품 제고가 부족하여 판매할 수 없습니다.");
+//				return;
+//			}
+//			
+//			int tprice = cnt*pDto.getPrice();	// 판매금액계산
+//			
+//			// 2. 판매테이블 Insert처리
+//			HashMap<String,Object> sMap = new HashMap<>();
+//			sMap.put("sname", pDto.getPname());
+//			sMap.put("cnt", cnt);
+//			sMap.put("tprice", tprice);
+//			
+//			result = sqlSession.update("sale.insertSale", sMap);
+//			if (result > 0) {
+//				System.out.println("▣▣ " + pDto.getPname() + " 제품 " + cnt + "개 판매금액 " + tprice + "원 등록되었습니다.");
+//			} else {
+//				System.out.println("▣▣ " + pDto.getPname() + " 제품 판매금액 등록에 실패하였습니다.관리자에게 문의하세요.");
+//				return;
+//			}
+//			
+//			// 3. 상품테이블 Update 처리
+//			HashMap<String,Object> map = new HashMap<>();
+//			map.put("pname", pname);
+//			map.put("cnt", cnt);
+//			map.put("flag", "sub");
+//			result = sqlSession.update("pdt.cntChange", map);
+//			if (result > 0) {
+//				System.out.println("▣▣ " + pname + " 제품 " + cnt + "개 판매되었습니다.");
+//				sqlSession.commit();	// tbl_product와  tbl_sale에 대한 commit수행
+//			} else {
+//				System.out.println("▣▣ " + pname + " 제품 판매실패하였습니다.관리자에게 문의하세요.");
+//				return;
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//			
+//		} finally {
+//			sqlSession.close();
+//			
+//		}
+//	}
 	
 	
 	// 2. 제품 등록&추가 기능 작동시 기존에 등록된 제품인지 최초입고제품인지 판별하는 기능
@@ -130,7 +218,8 @@ public class ProductDAO {
 			HashMap<String,Object> map = new HashMap<>();
 			map.put("pname", pname);
 			map.put("cnt", cnt);
-			result = sqlSession.update("pdt.cntPlus", map);
+			map.put("flag", "plus");
+			result = sqlSession.update("pdt.cntChange", map);
 			if (result > 0) {
 				System.out.println("▣▣ " + pname + " 제품 " + cnt + "개 입고되었습니다.");
 			} else {
@@ -247,14 +336,21 @@ public class ProductDAO {
 			
 		}
 	}
+
+	// 7. 일일 매출현황 출력
+	public void totalSale() {
+		sDao.totalSale();
+	}
 	
 	// 조회결과 viewer
 	public void viewPdtList(List<ProductDTO> list) {
+		int i = 1;
 		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
-		System.out.println("▣▣ PNO\tPNAME\tCOMPANY\tPRICE\tCNT\tREGDATE ▣▣");
+		System.out.println("▣▣ 선택\t제품번호\t제품명\t제조사\t입고단가\t제고\t입고일 ▣▣");
 		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 		for (ProductDTO line : list) {
-			System.out.println(line.toString());
+			System.out.println(i+"\t"+line.toString());
+			i++;
 		}		
 		System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 	}

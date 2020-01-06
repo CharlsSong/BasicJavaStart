@@ -1,5 +1,6 @@
 package problem.marcket;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MarcketMain {
@@ -11,8 +12,8 @@ public class MarcketMain {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		ProductDAO pDao = new ProductDAO();
-		SaleDAO sDao = new SaleDAO();
 		MarcketMain mm = new MarcketMain();
+		List<ProductDTO> list;
 		
 		// 프로그램 시작
 		String userid = "";
@@ -63,23 +64,62 @@ public class MarcketMain {
 				// 판매 제품 리스트 출력
 				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ 판매 제품 리스트 ");
-				pDao.salePdtList();
+				System.out.println("▣▣ 구매하고 싶은 제품의 번호와 수량을 입력하세요. ");
+				// 현재 등록된 제품중 제고가 1보다 큰것(즉 수량이 0인 제품을 제외)
+				// pDao.selectUsePdt();
+				
 				
 				// 판매정보 입력
-				String pname = "";
+//				String pname = "";
+//				do {
+//					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+//					System.out.println("▣▣ 1. 제품 판매 ");
+//					System.out.println("▣▣ 제품명: ");
+//					pname = sc.nextLine();
+//				} while(!pDao.pdtAlready(pname));
+				int num = 0;
+				int cnt = 0;
 				do {
-					System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
-					System.out.println("▣▣ 1. 제품 판매 ");
-					System.out.println("▣▣ 제품명: ");
-					pname = sc.nextLine();
-				} while(!pDao.pdtAlready(pname));
+					list = pDao.salePdtList();
+					while(true){
+						System.out.println("▣▣ 제품 매출입력 ▣▣ ");
+						System.out.println("▣▣ 선택 번호(0:종료): ");
+						num = sc.nextInt();
+						sc.nextLine();
+						
+						if(num >= 0 && num <= list.size()) {
+							break;
+						} else {
+							System.out.println("0~"+list.size()+"까지 숫자만 입력하세요.");
+							continue;
+						}
+					} 
+					
+					if (num == 0) break; // 입력 종료
+					
+					while(true) {
+						System.out.println("▣▣ 제품 매출입력 ▣▣ ");
+						System.out.println("▣▣ 매출수량: ");
+						cnt = sc.nextInt();
+						sc.nextLine();
+						
+						if(cnt <= list.get(num-1).getCnt()) {
+							break;
+						} else {
+							System.out.println("제품제고가 "+ list.get(num-1).getCnt() + "개 입니다. 확인후 입력하세요.");
+							continue;
+						}
+							
+					}
+					pDao.salePdt(num, cnt);							// rollback 문제를 무시하고 처리
+				} while(list.get(num-1).getCnt() >= 0);
 				
-				System.out.println("▣▣ 제품 매출입력 ▣▣ ");
-				System.out.println("▣▣ 매출수량: ");
-				int cnt = sc.nextInt();
-				sc.nextLine();
-								
-				pDao.salePdt(pname, cnt);
+				
+//				pDao.salePdt(pname, cnt);							// rollback 문제를 피하기 위해 묶어서 처리
+				// 1. 제고 >=cnt면 price 값을 받아온다.
+				// 2. sDao.saleInsert(pname, cnt, price) 수행 
+				// 3. pDao.UpdatePdtSub(pname, cnt) 수행			// rollback 문제 발생(Spring에서 잡을 수 있음)
+				
 			} else if(code == 2) { 	// 2. 제품 등록&추가
 				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ 2. 제품 등록&추가 ");
@@ -176,7 +216,8 @@ public class MarcketMain {
 				System.out.println("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
 				System.out.println("▣▣ 7. 일일 매출현황 ");
 			
-				sDao.totalSale();
+				pDao.totalSale();
+				//sDao.totalSale();
 			} else { 	// 8. 프로그램 종료
 				System.out.println("▣▣ [MSG] Program Exit.");
 				System.exit(0);
