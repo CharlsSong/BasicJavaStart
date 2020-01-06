@@ -296,3 +296,86 @@ DESC tbl_member;
 COMMIT;
 
 SELECT * FROM tbl_member;
+
+-- 편의점 테이블
+DROP TABLE tbl_product;
+CREATE TABLE tbl_product(
+    pno NUMBER PRIMARY KEY,
+    pname VARCHAR2(100) NOT NULL UNIQUE,
+    company VARCHAR2(100) NOT NULL,
+    price NUMBER NOT NULL,
+    cnt NUMBER DEFAULT 0,
+    regdate DATE DEFAULT SYSDATE
+);
+
+DROP SEQUENCE seq_product;
+CREATE SEQUENCE seq_product
+    START WITH 1001
+    INCREMENT BY 1
+    NOCYCLE;
+     
+INSERT INTO tbl_product(pno, pname, company, price, cnt)    
+VALUES(seq_product.NEXTVAL, '코카콜라','코카콜라',900, 5);
+
+INSERT INTO tbl_product(pno, pname, company, price, cnt)    
+VALUES(seq_product.NEXTVAL, '스프라이트','코카콜라',800, 10);
+
+COMMIT;
+
+SELECT * FROM tbl_product;
+
+DESC tbl_product;
+
+ -- 편의점 판매 테이블
+DROP TABLE tbl_sale;
+CREATE TABLE tbl_sale(
+    sno NUMBER PRIMARY KEY,
+    sname VARCHAR2(100) NOT NULL,
+    cnt NUMBER NOT NULL,
+    tprice NUMBER NOT NULL,    
+    regdate DATE DEFAULT SYSDATE
+);
+
+DROP SEQUENCE seq_sale;
+CREATE SEQUENCE seq_sale
+    START WITH 1
+    INCREMENT BY 1
+    NOCYCLE;
+
+COMMIT;
+
+SELECT * FROM tbl_product;
+SELECT * FROM tbl_sale;
+
+SELECT sname, sum(cnt), sum(tprice), regdate FROM tbl_sale
+ 		GROUP BY regdate, sname
+
+UPDATE tbl_sale
+SET cnt = 10,
+    tprice = 9000
+WHERE sno = 1;
+
+DESC tbl_sale;
+--등록또는 추가할 제품이름
+
+--결과 1 기존등록 제품 추가기능 작동
+--결과 2 처음입고 제품 등록기능 작동
+
+
+
+SELECT sname, sum(cnt), sum(tprice), regdate FROM tbl_sale
+ 		GROUP BY sname, regdate 
+
+SELECT sname, regdate, sum(cnt), sum(tprice)  FROM tbl_sale
+ 		GROUP BY regdate,sname;
+
+-- alaise 명으로 GROUP BY 수행이 안된다.
+SELECT sname, sum(cnt), sum(tprice), TO_CHAR(regdate, 'YYYY-MM-DD') as regdate  FROM tbl_sale
+ 		GROUP BY sname, regdate;
+
+SELECT sname, sum(cnt), sum(tprice), TO_CHAR(regdate, 'YYYY-MM-DD') as regdate  FROM tbl_sale
+ 		GROUP BY TO_CHAR(regdate, 'YYYY-MM-DD'), sname;
+        
+SELECT sname, sum(cnt), sum(tprice)FROM tbl_sale
+WHERE TO_CHAR(regdate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+GROUP BY sname;        
